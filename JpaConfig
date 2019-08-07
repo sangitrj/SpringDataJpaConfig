@@ -1,0 +1,73 @@
+package config;
+
+
+
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.hibernate.ejb.HibernatePersistence;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories("repositories")
+//@ComponentScan({ "config" })
+/*@PropertySource("classpath:database.properties")*/
+public class JpaConfig {
+
+	private final String PROPERTY_DRIVER = "driver";
+	private final String PROPERTY_URL = "url";
+	private final String PROPERTY_USERNAME = "user";
+	private final String PROPERTY_PASSWORD = "password";
+	private final String PROPERTY_SHOW_SQL = "hibernate.show_sql";
+	private final String PROPERTY_DIALECT = "hibernate.dialect";
+
+	@Autowired
+	Environment environment;
+
+	@Bean
+	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean lfb = new LocalContainerEntityManagerFactoryBean();
+		lfb.setDataSource(dataSource());
+		lfb.setPersistenceProviderClass(HibernatePersistence.class);
+		lfb.setPackagesToScan("entity");
+		lfb.setJpaProperties(hibernateProps());
+		return lfb;
+	}
+
+	@Bean
+	DataSource dataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName("com.ibm.db2.jcc.DB2Driver"/*environment.getProperty(PROPERTY_DRIVER)*/);
+		ds.setUrl("db url"/*environment.getProperty(PROPERTY_URL)*/);
+		ds.setUsername("user"/*environment.getProperty(PROPERTY_USERNAME)*/);
+		ds.setPassword("pass"/*environment.getProperty(PROPERTY_PASSWORD)*/);
+		
+		return ds;
+	}
+
+	Properties hibernateProps() {
+		Properties properties = new Properties();
+		properties.setProperty(PROPERTY_DIALECT,"org.hibernate.dialect.DB2Dialect"/* environment.getProperty(PROPERTY_DIALECT)*/);
+		properties.setProperty(PROPERTY_SHOW_SQL, "true"/*environment.getProperty(PROPERTY_SHOW_SQL)*/);
+		properties.setProperty("hibernate.default_schema", "xxxx");
+		return properties;
+	}
+
+	@Bean
+	JpaTransactionManager transactionManager() {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+		return transactionManager;
+	}
+}
