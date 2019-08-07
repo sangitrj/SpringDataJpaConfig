@@ -1,0 +1,28 @@
+slf4j-simple-1.6.1.jar
+slf4j-api-1.6.1.jar
+db2jcc4.jar - for db2
+db2jcc_license_cisuz.jar - for db2
+commons-logging-1.2.jar
+'org.hibernate.common:hibernate-commons-annotations:4.0.2.Final'
+group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+'org.hibernate:hibernate-core:4.2.14.Final'
+'org.hibernate:hibernate-entitymanager:4.2.14.Final'
+'org.springframework.data:spring-data-jpa:1.7.3.RELEASE'
+'org.springframework:spring-jms:4.1.7.RELEASE'
+'org.springframework:spring-aspects:4.1.7.RELEASE'
+'org.apache.poi:poi:3.9'
+'org.apache.poi:poi-ooxml:3.9'
+group: 'org.springframework', name: 'spring-context-support', version: '4.1.7.RELEASE'
+'javax.jms:javax.jms-api:2.0-b07'
+group: 'com.jcraft', name: 'jsch', version: '0.1.53'
+'org.springframework:spring-test:4.1.7.RELEASE'  -- for test cases
+'org.mockito:mockito-all:1.10.19'  -- for test cases
+'com.jayway.jsonpath:json-path:2.2.0'  -- for test cases
+'junit:junit:4.12'  -- for test cases
+'org.apache.logging.log4j:log4j-web:2.5'
+'com.fasterxml.jackson.core:jackson-databind:2.1.4'
+group: 'org.ehcache', name: 'ehcache', version: '3.3.1'
+group: 'javax.cache', name: 'cache-api', version: '1.0.0'
+group: 'javax.mail', name: 'javax.mail-api', version: '1.6.0'
+group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.3'  -- for test cases
+group: 'org.powermock', name: 'powermock-module-junit4', version: '1.7.3'  -- for test cases
