@@ -1,0 +1,51 @@
+package test;
+
+import java.net.URISyntaxException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import config.JpaConfig;
+
+
+@Configuration("mainBean")
+@EnableJpaRepositories(basePackages = "repositories")
+@Import(JpaConfig.class)
+@Transactional
+public class SpringDataJpaExampleUsingAnnotation {
+	
+	@Autowired
+	private EmployeeInterface employeeInterface; 
+	
+	private Employee emp = new Employee();
+	
+	public static void main(String[] args) throws URISyntaxException, Exception {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+		try {
+			ctx.register(SpringDataJpaExampleUsingAnnotation.class);
+			ctx.register(JpaConfig.class);
+			ctx.refresh();
+			System.out.println("Load context");
+			SpringDataJpaExampleUsingAnnotation s = (SpringDataJpaExampleUsingAnnotation) ctx.getBean("mainBean");
+			s.display();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			ctx.close();
+		}
+	}
+	public void display() throws JsonProcessingException{
+		List<Employee> emps =  employeeInterface.findAll();
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(emps));
+	}
+}
